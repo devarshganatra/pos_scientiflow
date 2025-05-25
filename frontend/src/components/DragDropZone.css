@@ -135,6 +135,196 @@
   color: white;
 }
 
+/* Y-Axis Drop Zone Styles */
+.y-axis-zone {
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-height: 120px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.y-axis-zone:hover {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.y-axis-zone.drag-over {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.1);
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+}
+
+.y-axis-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.y-axis-item {
+  background: rgba(139, 92, 246, 0.1);
+  color: #7c3aed;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border-left: 4px solid;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Labels Section */
+.labels-section {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.labels-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .labels-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.label-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label-input-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.label-input {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.label-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Y-Axes Management */
+.y-axes-management {
+  background: #fef3c7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #fcd34d;
+}
+
+.y-axes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.y-axis-config {
+  display: grid;
+  grid-template-columns: 2fr 2fr auto auto;
+  gap: 0.75rem;
+  align-items: center;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .y-axis-config {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+.y-axis-select,
+.y-axis-label-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.y-axis-select:focus,
+.y-axis-label-input:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.y-axis-color-input {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.y-axis-remove-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.y-axis-remove-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.add-y-axis-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-y-axis-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(245, 158, 11, 0.3);
+}
+
+.add-y-axis-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .empty-state {
   text-align: center;
   color: #9ca3af;

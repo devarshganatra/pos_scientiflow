@@ -23,12 +23,17 @@ const FileUploader = ({ onUpload }) => {
     if (files.length > 0) {
       const file = files[0];
       if (file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.json')) {
-        setUploadStatus('Uploading...');
-        // Create a fake event object to match the existing onUpload handler
-        const fakeEvent = { target: { files: [file] } };
-        await onUpload(fakeEvent);
-        setUploadStatus('Upload successful!');
-        setTimeout(() => setUploadStatus(''), 3000);
+        setUploadStatus('Processing file...');
+        try {
+          // Create a fake event object to match the existing onUpload handler
+          const fakeEvent = { target: { files: [file] } };
+          await onUpload(fakeEvent);
+          setUploadStatus('Upload successful!');
+          setTimeout(() => setUploadStatus(''), 3000);
+        } catch (error) {
+          setUploadStatus('Upload failed. Please try again.');
+          setTimeout(() => setUploadStatus(''), 3000);
+        }
       } else {
         setUploadStatus('Please upload a CSV or JSON file');
         setTimeout(() => setUploadStatus(''), 3000);
@@ -38,10 +43,15 @@ const FileUploader = ({ onUpload }) => {
 
   const handleFileChange = async (e) => {
     if (e.target.files.length > 0) {
-      setUploadStatus('Uploading...');
-      await onUpload(e);
-      setUploadStatus('Upload successful!');
-      setTimeout(() => setUploadStatus(''), 3000);
+      setUploadStatus('Processing file...');
+      try {
+        await onUpload(e);
+        setUploadStatus('Upload successful!');
+        setTimeout(() => setUploadStatus(''), 3000);
+      } catch (error) {
+        setUploadStatus('Upload failed. Please try again.');
+        setTimeout(() => setUploadStatus(''), 3000);
+      }
     }
   };
 
@@ -87,7 +97,7 @@ const FileUploader = ({ onUpload }) => {
         </div>
 
         {uploadStatus && (
-          <div className={`upload-status ${uploadStatus.includes('successful') ? 'success' : uploadStatus.includes('Uploading') ? 'loading' : 'error'}`}>
+          <div className={`upload-status ${uploadStatus.includes('successful') ? 'success' : uploadStatus.includes('Processing') ? 'loading' : 'error'}`}>
             {uploadStatus}
           </div>
         )}
