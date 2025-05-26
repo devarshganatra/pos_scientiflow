@@ -1,3 +1,7 @@
 fastapi
 uvicorn
 python-multipart
+pandas
+plotly
+kaleido>=0.2.0
+pydantic

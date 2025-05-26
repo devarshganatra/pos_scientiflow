@@ -23,17 +23,7 @@ const FileUploader = ({ onUpload }) => {
     if (files.length > 0) {
       const file = files[0];
       if (file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.json')) {
-        setUploadStatus('Processing file...');
-        try {
-          // Create a fake event object to match the existing onUpload handler
-          const fakeEvent = { target: { files: [file] } };
-          await onUpload(fakeEvent);
-          setUploadStatus('Upload successful!');
-          setTimeout(() => setUploadStatus(''), 3000);
-        } catch (error) {
-          setUploadStatus('Upload failed. Please try again.');
-          setTimeout(() => setUploadStatus(''), 3000);
-        }
+        await processFile(file);
       } else {
         setUploadStatus('Please upload a CSV or JSON file');
         setTimeout(() => setUploadStatus(''), 3000);
@@ -43,15 +33,57 @@ const FileUploader = ({ onUpload }) => {
 
   const handleFileChange = async (e) => {
     if (e.target.files.length > 0) {
-      setUploadStatus('Processing file...');
-      try {
-        await onUpload(e);
-        setUploadStatus('Upload successful!');
-        setTimeout(() => setUploadStatus(''), 3000);
-      } catch (error) {
-        setUploadStatus('Upload failed. Please try again.');
-        setTimeout(() => setUploadStatus(''), 3000);
+      const file = e.target.files[0];
+      await processFile(file);
+    }
+  };
+
+  const processFile = async (file) => {
+    setUploadStatus('Processing file...');
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      console.log('Uploading file:', file.name);
+      
+      const response = await fetch('http://localhost:8000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server error:', errorText);
+        throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
+
+      const result = await response.json();
+      console.log('Upload successful:', result);
+      
+      // Call the parent's onUpload callback with the processed data
+      if (onUpload) {
+        // Create a fake event that matches what App.js expects
+        const fakeEvent = {
+          target: {
+            files: [file]
+          }
+        };
+        
+        // Instead of calling onUpload with the event, we'll handle the data directly
+        // We need to modify App.js to handle this properly
+        onUpload(result, file.name);
+      }
+      
+      setUploadStatus('Upload successful!');
+      setTimeout(() => setUploadStatus(''), 3000);
+      
+    } catch (error) {
+      console.error('Upload error:', error);
+      setUploadStatus(`Upload failed: ${error.message}`);
+      setTimeout(() => setUploadStatus(''), 5000);
     }
   };
 
